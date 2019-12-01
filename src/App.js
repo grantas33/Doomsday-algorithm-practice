@@ -1,25 +1,72 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {Box, Button, Grommet, Heading, Text} from 'grommet';
+
+const theme = {
+  global: {
+    font: {
+      family: 'Solway',
+      size: '18px',
+      height: '20px',
+    },
+  },
+};
+
+const DayButton = (props) =>
+  <Box flex={{'grow': 1}} basis={'xxsmall'} align={'center'} justify={'center'}>
+    <Button>
+        {props.title}
+    </Button>
+  </Box>;
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <Grommet theme={theme} full>
+      <Box fill background={'brand'} direction={'column'} overflow={'hidden'}>
+        <Box
+          flex={'grow'}
+          align={'center'}
+          justify={'center'}
+          animation={{"type":"fadeIn"}}
         >
-          Learn React
-        </a>
-      </header>
-    </div>
+          <Heading size={'large'}>2012-05-26</Heading>
+        </Box>
+        <Box
+          flex='grow'
+          direction={'column'}
+          align={'space-around'}
+          justify={'center'}
+        >
+          <Box
+            flex={'grow'}
+            direction={"row"}
+            align={'stretch'}
+            wrap={true}
+          >
+            <DayButton title={'Monday'}/>
+            <DayButton title={'Tuesday'}/>
+            <DayButton title={'Wednesday'}/>
+          </Box>
+          <Box
+            flex={'grow'}
+            direction={"row"}
+            align={'stretch'}
+            wrap={true}
+          >
+            <DayButton title={'Thursday'}/>
+            <DayButton title={'Friday'}/>
+            <DayButton title={'Saturday'}/>
+          </Box>
+          <Box
+            flex={'grow'}
+            direction={"row"}
+            align={'stretch'}
+            wrap={true}
+          >
+            <DayButton title={'Sunday'}/>
+          </Box>
+        </Box>
+      </Box>
+    </Grommet>
   );
 }
 
