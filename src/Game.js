@@ -1,32 +1,34 @@
 import React, {useState} from 'react';
-import {Box, Button, Heading, Text} from 'grommet';
+import {Box, Heading, Text} from 'grommet';
+import BottomButton from "./components/BottomButton";
+import DayButtonGrid from "./components/DayButtonGrid";
 const moment = require('moment');
 const momentRandom = require('moment-random');
 
+const DATE_FORMAT = "YYYY-MM-DD";
+
 function Game(props) {
 
-  let initialDay = momentRandom(
-    moment(props.endDate, 'YYYY-MM-DD'),
-    moment(props.startDate, 'YYYY-MM-DD'));
+  const generateRandomDay = () => momentRandom(
+    moment(props.endDate, DATE_FORMAT),
+    moment(props.startDate, DATE_FORMAT)
+  );
 
-  const [currentDay, setCurrentDay] = useState(initialDay.format('YYYY-MM-DD'));
+  const parseDateToWeekDayNumber = (date) => Number(date.format('d'));
+
+  let initialDay = generateRandomDay();
+  const [currentDay, setCurrentDay] = useState(initialDay.format(DATE_FORMAT));
   const [score, setScore] = useState(0);
   const [selectedDayOfWeek, setSelectedDayOfWeek] = useState();
-  const [expectedDayOfWeek, setExpectedDayOfWeek] = useState(Number(initialDay.format('d')));
+  const [expectedDayOfWeek, setExpectedDayOfWeek] = useState(parseDateToWeekDayNumber(initialDay));
 
-  const DayButton = (props) =>
-    <Box
-      flex={{'grow': 1}}
-      basis={'xxsmall'}
-      align={'center'}
-      justify={'center'}
-      style={{boxShadow: "none"}}
-      background={selectedDayOfWeek !== undefined && ((selectedDayOfWeek !== expectedDayOfWeek && props.number === selectedDayOfWeek) ? 'status-error' :
-                                        (props.number === expectedDayOfWeek && 'status-ok'))}
-      onClick={() => { if (selectedDayOfWeek === undefined) setSelectedDayOfWeek(props.number)}}
-    >
-      <Text size={"large"}>{props.title}</Text>
-    </Box>;
+  const startNewRound = () => {
+    let nextDay = generateRandomDay();
+    setCurrentDay(nextDay.format(DATE_FORMAT));
+    setScore(selectedDayOfWeek === expectedDayOfWeek ? score => score + 1 : 0);
+    setSelectedDayOfWeek(undefined);
+    setExpectedDayOfWeek(parseDateToWeekDayNumber(nextDay))
+  };
 
   return (
       <Box fill background={'brand'} direction={'column'} overflow={'hidden'}>
@@ -38,6 +40,7 @@ function Game(props) {
             <Text size={"xlarge"}>Score: {score}</Text>
           </Box>
           <Box
+            key={currentDay}
             flex={'grow'}
             align={'center'}
             justify={'center'}
@@ -47,65 +50,8 @@ function Game(props) {
               {currentDay}
             </Heading>
           </Box>
-          <Box
-            flex='grow'
-            direction={'column'}
-            align={'space-around'}
-            justify={'center'}
-            alignSelf={'center'}
-            style={{width: "100%"}}
-          >
-            <Box
-              flex={'grow'}
-              direction={"row"}
-              align={'stretch'}
-              wrap={true}
-            >
-              <DayButton title={'Monday'} number={0}/>
-              <DayButton title={'Tuesday'} number={1}/>
-              <DayButton title={'Wednesday'} number={2}/>
-            </Box>
-            <Box
-              flex={'grow'}
-              direction={"row"}
-              align={'stretch'}
-              wrap={true}
-            >
-              <DayButton title={'Thursday'} number={3}/>
-              <DayButton title={'Friday'} number={4}/>
-              <DayButton title={'Saturday'} number={5}/>
-            </Box>
-            <Box
-              flex={'grow'}
-              direction={"row"}
-              align={'stretch'}
-              wrap={true}
-            >
-              <DayButton />
-              <DayButton title={'Sunday'} number={6}/>
-              <DayButton />
-            </Box>
-          </Box>
-          {selectedDayOfWeek !== undefined ?
-            <Box
-              align={"end"}
-              margin={{bottom: "large", right: "large"}}
-              animation={{"type": "fadeIn"}}
-            >
-              <Button
-                label={"Continue"}
-              />
-            </Box> :
-            <Box
-              align={"end"}
-              margin={{bottom: "large", right: "large"}}
-            >
-              <Button
-                label={"Continue"}
-                style={{visibility: 'hidden'}}
-              />
-            </Box>
-          }
+          <DayButtonGrid selectedDayOfWeek={selectedDayOfWeek} setSelectedDayOfWeek={setSelectedDayOfWeek} expectedDayOfWeek={expectedDayOfWeek}/>
+          <BottomButton label={"Continue"} onClick={startNewRound} isVisible={selectedDayOfWeek !== undefined}/>
         </Box>
       </Box>
   );
