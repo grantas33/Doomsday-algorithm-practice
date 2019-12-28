@@ -2,6 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import {Box, Heading, Text} from 'grommet';
 import BottomButton from "./components/BottomButton";
 import DayButtonGrid from "./components/DayButtonGrid";
+import {useHighScoreState} from "./functions/useHighScoreState";
 const moment = require('moment');
 const momentRandom = require('moment-random');
 
@@ -19,6 +20,7 @@ function Game(props) {
   let initialDay = generateRandomDay();
   const [currentDay, setCurrentDay] = useState(initialDay.format(DATE_FORMAT));
   const [score, setScore] = useState(0);
+  const [highScore, setHighScore] = useHighScoreState();
   const [selectedDayOfWeek, setSelectedDayOfWeek] = useState();
   const [expectedDayOfWeek, setExpectedDayOfWeek] = useState(parseDateToWeekDayNumber(initialDay));
   const [timeLeft, setTimeLeft] = useState(10);
@@ -37,7 +39,12 @@ function Game(props) {
   const startNewRound = () => {
     let nextDay = generateRandomDay();
     setCurrentDay(nextDay.format(DATE_FORMAT));
-    setScore((selectedDayOfWeek === expectedDayOfWeek && timeLeft > 0) ? score => score + 1 : 0);
+    if (selectedDayOfWeek === expectedDayOfWeek && timeLeft > 0) {
+      setScore(score => score + 1);
+      if (score + 1 > highScore) setHighScore(score + 1);
+    } else {
+      setScore(0)
+    }
     setSelectedDayOfWeek(undefined);
     setExpectedDayOfWeek(parseDateToWeekDayNumber(nextDay));
     setTimeLeft(10)
@@ -47,9 +54,11 @@ function Game(props) {
       <Box fill background={'brand'} direction={'column'} overflow={'hidden'}>
         <Box direction={"column"} flex={"grow"} style={{maxWidth: 800, width: "100%"}} alignSelf={'center'}>
           <Box
-            align={"end"}
-            margin={{top: "medium", right: "medium"}}
+            direction={"row"}
+            justify={"between"}
+            margin={{top: "medium", right: "medium", left: "medium"}}
           >
+            <Text size={"xlarge"}>Highscore: {highScore}</Text>
             <Text size={"xlarge"}>Score: {score}</Text>
           </Box>
           <Box
@@ -59,7 +68,7 @@ function Game(props) {
             justify={'center'}
             animation={{"type":"fadeIn"}}
           >
-            <Box animation={(timeLeft <= 3 && timeLeft > 0) ? {type: "pulse", duration: 500} : {}} flex={{grow: 1}}>
+            <Box animation={(timeLeft <= 3 && timeLeft > 0) ? {type: "pulse", size: "large", duration: 500} : {}} flex={{grow: 1}}>
               <Heading size={"large"} level={'1'} color={timeLeft === 0 && 'status-warning'}>
                 {timeLeft}
               </Heading>
