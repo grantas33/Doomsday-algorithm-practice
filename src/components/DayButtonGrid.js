@@ -9,7 +9,7 @@ export default function DayButtonGrid(props) {
   let expected = props.expectedDayOfWeek;
 
   return <Box
-    flex='grow'
+    flex={{grow: 2}}
     direction={'column'}
     justify={'center'}
     alignSelf={'center'}
