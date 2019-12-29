@@ -2,13 +2,7 @@ import { useState, useEffect } from 'react';
 import {storage} from "../services/storage";
 
 export function useHighScoreState() {
-  const [highScore, setHighScore] = useState(0);
-
-  useEffect(() => {
-    storage.getHighScore().then(score => {
-      setHighScore(score)
-    })
-  }, []);
+  const [highScore, setHighScore] = useState(storage.getHighScore());
 
   useEffect(() => {
     storage.setHighScore(highScore)
