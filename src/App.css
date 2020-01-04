@@ -1,0 +1,14 @@
+.century { color: red }
+.centuryIndex { color: dodgerblue }
+.year { color: #00ff82 }
+.yearIndex { color: hotpink }
+.nearestMultiple { color: greenyellow}
+.month { color: green }
+.day { color: darkorange }
+.doomsdayWeekDay { color: #999900 }
+.doomsday { color: blueviolet }
+
+.modal {
+    height: fit-content;
+    width: fit-content;
+}

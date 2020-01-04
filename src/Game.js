@@ -1,24 +1,22 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {Box, Heading, Text} from 'grommet';
-import BottomButton from "./components/BottomButton";
+import FooterBar from "./components/FooterBar";
 import DayButtonGrid from "./components/DayButtonGrid";
 import {useHighScoreState} from "./functions/useHighScoreState";
 const moment = require('moment');
 const momentRandom = require('moment-random');
 
-const DATE_FORMAT = "YYYY-MM-DD";
-
 function Game(props) {
 
   const generateRandomDay = () => momentRandom(
-    moment(props.endDate, DATE_FORMAT),
-    moment(props.startDate, DATE_FORMAT)
+    moment(props.endDate),
+    moment(props.startDate)
   );
 
   const parseDateToWeekDayNumber = (date) => Number(date.format('d'));
 
   let initialDay = generateRandomDay();
-  const [currentDay, setCurrentDay] = useState(initialDay.format(DATE_FORMAT));
+  const [currentDay, setCurrentDay] = useState(initialDay.format("Y-MM-DD"));
   const [score, setScore] = useState(0);
   const [highScore, setHighScore] = useHighScoreState();
   const [selectedDayOfWeek, setSelectedDayOfWeek] = useState();
@@ -38,7 +36,7 @@ function Game(props) {
 
   const startNewRound = () => {
     let nextDay = generateRandomDay();
-    setCurrentDay(nextDay.format(DATE_FORMAT));
+    setCurrentDay(nextDay.format("Y-MM-DD"));
     if (selectedDayOfWeek === expectedDayOfWeek && timeLeft > 0) {
       setScore(score => score + 1);
       if (score + 1 > highScore) setHighScore(score + 1);
@@ -80,7 +78,7 @@ function Game(props) {
             </Box>
           </Box>
           <DayButtonGrid selectedDayOfWeek={selectedDayOfWeek} setSelectedDayOfWeek={setSelectedDayOfWeek} expectedDayOfWeek={expectedDayOfWeek}/>
-          <BottomButton label={"Continue"} onClick={startNewRound} isVisible={selectedDayOfWeek !== undefined}/>
+          <FooterBar onContinueClick={startNewRound} isVisible={selectedDayOfWeek !== undefined} currentDay={currentDay}/>
         </Box>
       </Box>
   );

@@ -21,9 +21,9 @@ export default function DayButtonGrid(props) {
       align={'stretch'}
       wrap={true}
     >
-      <DayButton title={'Monday'} number={1} selectedDayOfWeek={selected} setSelectedDayOfWeek={setSelected} expectedDayOfWeek={expected}/>
-      <DayButton title={'Tuesday'} number={2} selectedDayOfWeek={selected} setSelectedDayOfWeek={setSelected} expectedDayOfWeek={expected}/>
-      <DayButton title={'Wednesday'} number={3} selectedDayOfWeek={selected} setSelectedDayOfWeek={setSelected} expectedDayOfWeek={expected}/>
+      <DayButton number={1} selectedDayOfWeek={selected} setSelectedDayOfWeek={setSelected} expectedDayOfWeek={expected}/>
+      <DayButton number={2} selectedDayOfWeek={selected} setSelectedDayOfWeek={setSelected} expectedDayOfWeek={expected}/>
+      <DayButton number={3} selectedDayOfWeek={selected} setSelectedDayOfWeek={setSelected} expectedDayOfWeek={expected}/>
     </Box>
     <Box
       flex={'grow'}
@@ -31,9 +31,9 @@ export default function DayButtonGrid(props) {
       align={'stretch'}
       wrap={true}
     >
-      <DayButton title={'Thursday'} number={4} selectedDayOfWeek={selected} setSelectedDayOfWeek={setSelected} expectedDayOfWeek={expected}/>
-      <DayButton title={'Friday'} number={5} selectedDayOfWeek={selected} setSelectedDayOfWeek={setSelected} expectedDayOfWeek={expected}/>
-      <DayButton title={'Saturday'} number={6} selectedDayOfWeek={selected} setSelectedDayOfWeek={setSelected} expectedDayOfWeek={expected}/>
+      <DayButton number={4} selectedDayOfWeek={selected} setSelectedDayOfWeek={setSelected} expectedDayOfWeek={expected}/>
+      <DayButton number={5} selectedDayOfWeek={selected} setSelectedDayOfWeek={setSelected} expectedDayOfWeek={expected}/>
+      <DayButton number={6} selectedDayOfWeek={selected} setSelectedDayOfWeek={setSelected} expectedDayOfWeek={expected}/>
     </Box>
     <Box
       flex={'grow'}
@@ -42,7 +42,7 @@ export default function DayButtonGrid(props) {
       wrap={true}
     >
       <DayButton />
-      <DayButton title={'Sunday'} number={0} selectedDayOfWeek={selected} setSelectedDayOfWeek={setSelected} expectedDayOfWeek={expected}/>
+      <DayButton number={0} selectedDayOfWeek={selected} setSelectedDayOfWeek={setSelected} expectedDayOfWeek={expected}/>
       <DayButton />
     </Box>
   </Box>

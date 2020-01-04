@@ -1,6 +1,7 @@
 import React from 'react';
 import {Grommet} from 'grommet';
 import Game from "./Game";
+import './App.css';
 const theme = {
   global: {
     font: {

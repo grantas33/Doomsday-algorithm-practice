@@ -1,5 +1,6 @@
 import {Box, Text} from "grommet";
 import React from "react";
+import moment from "moment";
 
 export default function DayButton(props) {
 
@@ -25,7 +26,7 @@ export default function DayButton(props) {
         if (!anySelected) props.setSelectedDayOfWeek(props.number)
       }}
     >
-      <Text size={"large"}>{props.title}</Text>
+      <Text size={"large"}>{moment.weekdays(props.number)}</Text>
     </Box> :
     <Box
       flex={{'grow': 1}}
