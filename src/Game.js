@@ -3,6 +3,7 @@ import {Box, Heading, Text} from 'grommet';
 import FooterBar from "./components/FooterBar";
 import DayButtonGrid from "./components/DayButtonGrid";
 import {useHighScoreState} from "./functions/useHighScoreState";
+import GitHubButton from 'react-github-btn'
 const moment = require('moment');
 const momentRandom = require('moment-random');
 
@@ -79,6 +80,13 @@ function Game(props) {
           </Box>
           <DayButtonGrid selectedDayOfWeek={selectedDayOfWeek} setSelectedDayOfWeek={setSelectedDayOfWeek} expectedDayOfWeek={expectedDayOfWeek}/>
           <FooterBar onContinueClick={startNewRound} isVisible={selectedDayOfWeek !== undefined} currentDay={currentDay}/>
+          <Box
+              direction={"row"}
+              justify={"end"}
+              margin={{right: "large", left: "large"}}
+          >
+            <GitHubButton href="https://github.com/grantas33/Doomsday-algorithm-practice" data-icon="octicon-star" data-show-count="true" aria-label="Star me on GitHub">Star</GitHubButton>
+          </Box>
         </Box>
       </Box>
   );

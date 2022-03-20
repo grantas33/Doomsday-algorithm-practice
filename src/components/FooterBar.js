@@ -16,7 +16,7 @@ export default function FooterBar(props) {
     key={props.isVisible}
     direction={"row"}
     justify={"between"}
-    margin={{bottom: "large", right: "large", left: "large"}}
+    margin={{bottom: "small", right: "large", left: "large"}}
     animation={props.isVisible ? {"type": "fadeIn"} : {"type": "fadeOut", "duration": 200}}
   >
     <Button
