@@ -8,7 +8,9 @@
 .doomsdayWeekDay { color: #999900 }
 .doomsday { color: blueviolet }
 
-.modal {
-    height: fit-content;
-    width: fit-content;
+@media (min-width: 768px) {
+    .modal {
+        width: fit-content;
+        margin: auto; /* This centers the modal */
+    }
 }

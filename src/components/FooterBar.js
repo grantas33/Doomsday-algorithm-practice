@@ -31,6 +31,7 @@ export default function FooterBar(props) {
             margin={"medium"}
             className={"modal"}
             responsive={false}
+            full="horizontal"
         >
           <ExplanationModal currentDay={props.currentDay}/>
         </Layer>
