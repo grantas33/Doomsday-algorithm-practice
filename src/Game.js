@@ -1,5 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {Box, Heading, Text} from 'grommet';
+import { storage } from './services/storage'; // Import storage
 import FooterBar from "./components/FooterBar";
 import DayButtonGrid from "./components/DayButtonGrid";
 import {useHighScoreState} from "./functions/useHighScoreState";
@@ -16,8 +17,9 @@ function Game(props) {
 
   const parseDateToWeekDayNumber = (date) => Number(date.format('d'));
 
+  const [dateFormat, setDateFormat] = useState(storage.getDateFormat()); // Define dateFormat state
   let initialDay = generateRandomDay();
-  const [currentDay, setCurrentDay] = useState(initialDay.format("Y-MM-DD"));
+  const [currentDay, setCurrentDay] = useState(initialDay.format(dateFormat)); // Use dateFormat
   const [score, setScore] = useState(0);
   const [highScore, setHighScore] = useHighScoreState();
   const [selectedDayOfWeek, setSelectedDayOfWeek] = useState();
@@ -37,7 +39,7 @@ function Game(props) {
 
   const startNewRound = () => {
     let nextDay = generateRandomDay();
-    setCurrentDay(nextDay.format("Y-MM-DD"));
+    setCurrentDay(nextDay.format(dateFormat)); // Use dateFormat
     if (selectedDayOfWeek === expectedDayOfWeek && timeLeft > 0) {
       setScore(score => score + 1);
       if (score + 1 > highScore) setHighScore(score + 1);
@@ -47,6 +49,14 @@ function Game(props) {
     setSelectedDayOfWeek(undefined);
     setExpectedDayOfWeek(parseDateToWeekDayNumber(nextDay));
     setTimeLeft(10)
+  };
+
+  // Function to handle date format change
+  const handleDateFormatChange = (newFormat) => {
+    setDateFormat(newFormat);
+    storage.setDateFormat(newFormat);
+    // Update currentDay to reflect new format immediately
+    setCurrentDay(moment(currentDay, dateFormat).format(newFormat));
   };
 
   return (
@@ -79,7 +89,13 @@ function Game(props) {
             </Box>
           </Box>
           <DayButtonGrid selectedDayOfWeek={selectedDayOfWeek} setSelectedDayOfWeek={setSelectedDayOfWeek} expectedDayOfWeek={expectedDayOfWeek}/>
-          <FooterBar onContinueClick={startNewRound} isVisible={selectedDayOfWeek !== undefined} currentDay={currentDay}/>
+          <FooterBar
+            onContinueClick={startNewRound}
+            isVisible={selectedDayOfWeek !== undefined}
+            currentDay={currentDay}
+            dateFormat={dateFormat} // Pass dateFormat
+            onDateFormatChange={handleDateFormatChange} // Pass handler
+          />
           <Box
               direction={"row"}
               justify={"end"}
